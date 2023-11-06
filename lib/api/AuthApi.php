@@ -7,15 +7,15 @@
 namespace Cardpay\api;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
 use Cardpay\ApiException;
 use Cardpay\Configuration;
 use Cardpay\HeaderSelector;
+use GuzzleHttp\Psr7\Request;
 use Cardpay\ObjectSerializer;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\MultipartStream;
+use GuzzleHttp\Exception\RequestException;
 
 class AuthApi
 {
@@ -141,7 +141,6 @@ class AuthApi
                 $response->getStatusCode(),
                 $response->getHeaders()
             ];
-
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -321,13 +320,11 @@ class AuthApi
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-
             } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -348,7 +345,7 @@ class AuthApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
