@@ -1,6 +1,6 @@
 {
-    "name": "kubinyete/unlimit-php-sdk-v3",
-    "version": "3.56.0",
+    "name": "cardpay/php-sdk-v3",
+    "version": "3.68.8",
     "description": "PHP SDK for Unlimit API v3",
     "keywords": [
         "unlimit",
